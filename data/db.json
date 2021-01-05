@@ -1,0 +1,10 @@
+{
+  "ids": {
+    "Product": 2
+  },
+  "models": {
+    "Product": {
+      "1": "{\"id\":1,\"title\":\"Keys\",\"qty\":5,\"price\":100}"
+    }
+  }
+}
