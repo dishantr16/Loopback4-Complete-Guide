@@ -1,12 +1,12 @@
 import {HttpErrors} from '@loopback/rest';
-import {UserProfile,securityId} from '@loopback/security';
 import {inject} from '@loopback/core';
 import {promisify} from 'util';
 import {TokenServiceBindings} from '../keys';
+import {UserProfile,securityId} from '@loopback/security';
 
 const jwt = require('jsonwebtoken');
 const signAsync = promisify(jwt.sign);
-
+const verifyAsync = promisify(jwt.verify)
 
 export class JWTService {
   @inject(TokenServiceBindings.TOKEN_SECRET)
@@ -30,6 +30,21 @@ export class JWTService {
   return token;
   }
   async verifyToken(token:string) : Promise<UserProfile> {
-    return Promise.resolve({name:'daisy', [securityId]:'15'});
+    if(!token){
+      throw new HttpErrors.Unauthorized(`error verifying token:'token' is null`,);
+    }
+    let userProfile: UserProfile;
+    try{
+      const decryptedToken = await verifyAsync(token, this.jwtSecret);
+      userProfile = Object.assign(
+        {[securityId]: '', name: ''},
+        {id: decryptedToken.id, name: decryptedToken.name},
+      );
+    }catch(error){
+      throw new HttpErrors.Unauthorized(
+        `Error verifying token : ${error.message}`,
+      );
+    }
+    return userProfile;
   }
 }

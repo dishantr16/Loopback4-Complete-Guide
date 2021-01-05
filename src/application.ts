@@ -52,7 +52,7 @@ export class LbProdApplication extends BootMixin(
     this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher);
     this.bind(PasswordHasherBindings.ROUNDS).to(10);
     this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
-    this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
+    //this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService);
     this.bind(TokenServiceBindings.TOKEN_SECRET).to(TokenServiceConstants.TOKEN_SECRET_VALUE);
     this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to(TokenServiceConstants.TOKEN_EXPIRES_IN_VALUE);
   }

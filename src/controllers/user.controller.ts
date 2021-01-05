@@ -1,5 +1,5 @@
 import {repository} from '@loopback/repository';
-import {getJsonSchemaRef, post, requestBody, SchemaObject} from '@loopback/rest';
+import {get, getJsonSchemaRef, post, requestBody, SchemaObject} from '@loopback/rest';
 import {User} from '../models';
 import {Credentials, UserRepository} from '../repositories';
 import * as _ from 'lodash';
@@ -10,6 +10,8 @@ import {CredentialsRequestBody} from './specs/user.controller.spec';
 import {MyUserService} from '../services/user-service';
 import {JWTService} from '../services/jwt-service';
 import {PasswordHasherBindings, TokenServiceBindings, UserServiceBindings} from '../keys';
+import {UserProfile,securityId} from '@loopback/security';
+import {authenticate} from '@loopback/authentication';
 
 
 export class UserController {
@@ -71,5 +73,9 @@ export class UserController {
     const token = await this.jwtService.generateToken(userProfile)
     return Promise.resolve({token});
   }
-
+  @get('/users/me')
+  @authenticate('jwt')
+  async me(): Promise<UserProfile> {
+    return Promise.resolve({[securityId]: '15', name:'daisy'})
+  }
 }

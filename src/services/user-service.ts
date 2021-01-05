@@ -7,11 +7,12 @@ import {User} from '../models';
 import {Credentials, UserRepository} from '../repositories/user.repository';
 import {BcryptHasher} from './hash.password.bcrypt';
 import {securityId} from '@loopback/security';
+import {UserServiceBindings} from '../keys';
 export class MyUserService implements UserService<User, Credentials>{
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
-    @inject('service.hasher')
+    @inject(UserServiceBindings.USER_SERVICE)
     public hasher: BcryptHasher
   ){}
   async verifyCredentials(credentials: Credentials): Promise<User> {
