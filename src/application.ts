@@ -29,7 +29,7 @@ export class LbProdApplication extends BootMixin(
 
     this.component(AuthenticationComponent)
     registerAuthenticationStrategy(this, JWTStrategy)
-    
+
     // Set up the custom sequence
     this.sequence(MySequence);
 
