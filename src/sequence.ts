@@ -18,6 +18,7 @@ import {
 
 const SequenceActions = RestBindings.SequenceActions;
 
+
 export class MySequence implements SequenceHandler {
   constructor(
     @inject(SequenceActions.FIND_ROUTE) protected findRoute: FindRoute,
